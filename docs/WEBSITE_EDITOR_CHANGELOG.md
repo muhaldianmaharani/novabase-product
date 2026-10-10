@@ -75,6 +75,24 @@ Verifikasi: Git ditemukan pada instalasi GitHub Desktop; status dan diff ditinja
 
 Warning core: tidak ada. Larangan force push dan push otomatis ke main/master/upstream tetap berlaku. Jika akses push gagal, commit lokal dipertahankan dan kendala dilaporkan.
 
+## 2026-10-11 - Memperbaiki akses Apache localhost
+
+Status: SELESAI KONFIGURASI LOKAL; hasil push dilaporkan pada respons akhir.
+
+Otorisasi: pemilik repo secara eksplisit mengizinkan perubahan setting Apache yang sudah dijelaskan. Scope fitur Card/Template tetap berlaku.
+
+| File/area | Perubahan | Dampak |
+| --- | --- | --- |
+| `C:/xampp3/apache/conf/extra/httpd-xampp.conf` (di luar repo) | Menambahkan Directory khusus novabase-product dengan AllowOverride All dan Require all granted | Memperbolehkan Options dan rewrite .htaccess pada folder repo; memperbaiki HTTP 500 |
+| `docs/LOCAL_DEVELOPMENT_SETUP.md` | Menambahkan blok config yang diterapkan, lokasi backup dan cara rollback | Konfigurasi lokal dapat direproduksi junior; file Apache tidak ikut commit |
+| `docs/WEBSITE_EDITOR_CHANGELOG.md` | Mencatat hasil dan otorisasi perubahan | Jejak pekerjaan |
+
+Backup: `C:/xampp3/apache/conf/extra/httpd-xampp.conf.novabase-20261011-001236.bak`.
+
+Verifikasi aktual: Apache syntax OK; setelah Apache dinyalakan ulang dan MySQL yang tidak aktif dinyalakan kembali, localhost Home 200, Login 200, editor tanpa login 302, aset CSS 200, dan akses .env 403. Tidak ada perubahan source core, .htaccess, .env, migration atau data aplikasi. Test runtime tidak diulang karena perubahan khusus konfigurasi server dan sudah diperiksa lewat HTTP. Perintah restart service awal tidak berlaku karena Apache bukan service Apache2.4; Apache kemudian dijalankan sebagai proses XAMPP biasa.
+
+Commit/push: branch kerja `feat/web-editor-frontend`, target origin; SHA dan hasil push dilaporkan setelah percobaan aktual. Konfigurasi Apache di luar repo hanya dicatat, tidak dimasukkan sebagai file mesin ke Git.
+
 ## Format entri pekerjaan berikutnya
 
 ```markdown

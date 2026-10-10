@@ -44,7 +44,24 @@ Website Editor memakai aset statis di `public/js/page-builder` dan `public/css/p
 
 Ekstensi ZIP PHP diaktifkan hanya untuk perintah Composer melalui `-d extension=zip`; `php.ini` XAMPP tidak diubah.
 
-## Database dan konfigurasi
+## Konfigurasi Apache lokal yang diterapkan 2026-10-11
+
+Atas izin pemilik repo, file di luar repo `C:/xampp3/apache/conf/extra/httpd-xampp.conf` ditambahkan blok khusus berikut di bagian akhir:
+
+```apache
+<Directory "C:/xampp3/htdocs/xampp/novabase-product">
+    AllowOverride All
+    Require all granted
+</Directory>
+```
+
+Ini mengatasi HTTP 500 `Options not allowed here` akibat folder induk `htdocs/xampp` memakai `AllowOverride AuthConfig`. Pengaturan hanya menarget folder repo; `.htaccess` dan source core tidak diubah. Konfigurasi mesin ini tidak ikut Git dan perlu diterapkan manual bila setup Apache yang sama dipakai di komputer lain.
+
+Backup sebelum perubahan: `C:/xampp3/apache/conf/extra/httpd-xampp.conf.novabase-20261011-001236.bak`. Untuk rollback, pulihkan backup tersebut setelah memastikan tidak ada perubahan konfigurasi berikutnya yang perlu dipertahankan, lalu validasi syntax dan restart Apache melalui XAMPP.
+
+Pemeriksaan `C:/xampp3/apache/bin/httpd.exe -t` menghasilkan `Syntax OK`. Apache dan MySQL harus aktif. URL Apache: `http://localhost/xampp/novabase-product/`. Jika memilih Apache sebagai URL utama secara tetap, ubah APP_URL lokal mengikuti URL tersebut; setup task ini tidak mengubah `.env`.
+
+## Konfigurasi database lokal
 
 `.env` dibuat dari `.env.example` dan APP_KEY lokal sudah dihasilkan. MySQL `novabase` dibuat setelah pemeriksaan memastikan database belum ada, lalu diinisialisasi dengan migration/seeder repo. Otomatis migrasi dan seeding di `.env` lokal dimatikan agar membuka halaman tidak mengubah schema atau mereset akun.
 
