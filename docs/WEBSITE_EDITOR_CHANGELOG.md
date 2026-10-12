@@ -157,6 +157,24 @@ Rollback: jangan mencabut registrasi activities sebelum mengonversi/menghapus bl
 
 Commit/push: target origin/feat/web-editor-frontend; SHA dan hasil aktual pada respons akhir. File fixture/profil browser hanya di TEMP dan tidak ikut commit.
 
+## 2026-10-13 - Klik kartu Kegiatan langsung membuka popup
+
+Status: SELESAI; hasil push pada respons akhir.
+
+Permintaan: hapus tombol Lihat kegiatan, buka detail dengan klik kartu kegiatan.
+
+| File | Perubahan | Dampak |
+| --- | --- | --- |
+| `public/js/page-builder/editor/activities.js` | Memindahkan pemicu popup ke seluruh article, menghapus tombol detail, menambahkan role/tabindex dan Enter/Space | Foto, judul, ringkasan dan area kartu membuka popup pada preview/publik; teks contenteditable di editor tetap dapat diedit |
+| `public/css/page-builder/templates.css` | Cursor kartu, border hover, fokus keyboard dan cursor teks edit; menghapus style tombol detail | Affordance interaktif tanpa tombol tambahan |
+| `docs/WEBSITE_EDITOR_CHANGELOG.md` | Catatan perilaku dan verifikasi | Menggantikan instruksi tombol Lihat kegiatan pada entri sebelumnya |
+
+Verifikasi: node --check lolos. Chrome headless memakai fixture modul/CSS nyata lolos untuk Enter, Space, klik judul kartu pada mode publik, popup buka/tutup, fokus kembali, scroll carousel dan tanpa overflow halaman di viewport desktop 1418px. Pemeriksaan visual browser pada website/login nyata dan uji mobile ulang belum dilakukan; layout/breakpoint carousel tidak berubah. Tidak mengulang feature test backend karena kontrak data dan save tidak berubah. Core NovaBase tidak diubah.
+
+Pemakaian: klik kartu langsung pada Preview/publik. Dalam mode Edit, klik foto/area kartu untuk detail; klik judul/ringkasan untuk mengedit. Tutup popup dengan tombol tutup, Escape, atau backdrop seperti sebelumnya.
+
+Commit/push: branch `feat/web-editor-frontend`, target origin; SHA dan hasil aktual pada respons akhir. Rollback hanya hunk kedua file frontend dan catatan task ini.
+
 ## Format entri pekerjaan berikutnya
 
 ```markdown

@@ -21,11 +21,10 @@ export function renderActivities(block, editable, escape) {
       </div>` : ''}
     </div>
     ${items.length ? `<div class="activities-track" tabindex="0" role="region" aria-label="Daftar kegiatan; geser untuk melihat kegiatan lainnya">
-      ${items.map((item, index) => `<article class="activity-card">
+      ${items.map((item, index) => `<article class="activity-card" role="button" tabindex="0" data-activity-open="${index}" aria-haspopup="dialog" aria-label="${escape(item.title || 'Detail kegiatan')}">
         ${image(item)}<div class="activity-copy">
           <h3 ${edit(`items.${index}.title`)}>${escape(item.title)}</h3>
           <p ${edit(`items.${index}.summary`)}>${escape(item.summary)}</p>
-          <button type="button" class="btn btn-primary" data-activity-open="${index}" aria-haspopup="dialog">Lihat kegiatan<span class="visually-hidden">: ${escape(item.title)}</span></button>
         </div>
       </article>`).join('')}
     </div>` : '<p class="section-copy activities-empty">Belum ada kegiatan yang ditampilkan.</p>'}
@@ -62,12 +61,20 @@ export function bindActivities(root) {
       step(event.key === 'ArrowRight' ? 1 : -1);
     });
     section.querySelectorAll('[data-activity-open]').forEach(button => {
-      button.addEventListener('click', event => {
+      const open = event => {
+        // Inline text editing must still select the section rather than open its dialog.
+        if (event.target.closest('[contenteditable="true"]')) return;
         event.stopPropagation();
         const dialog = section.querySelector(`[data-activity-dialog="${button.dataset.activityOpen}"]`);
         if (!dialog || dialog.open) return;
         dialog.showModal();
         dialog.addEventListener('close', () => button.focus(), { once: true });
+      };
+      button.addEventListener('click', open);
+      button.addEventListener('keydown', event => {
+        if (event.target !== button || !['Enter', ' '].includes(event.key)) return;
+        event.preventDefault();
+        open(event);
       });
     });
     section.querySelectorAll('dialog').forEach(dialog => {

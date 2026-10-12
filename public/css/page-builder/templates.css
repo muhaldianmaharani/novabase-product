@@ -439,14 +439,16 @@
 .website-theme .activity-card {
   min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column;
   background: var(--site-surface); border: 1px solid var(--site-border); border-radius: var(--site-radius);
-  overflow: hidden; color: var(--site-ink);
+  overflow: hidden; color: var(--site-ink); cursor: pointer;
 }
+.website-theme .activity-card:focus-visible { outline: 3px solid var(--site-accent); outline-offset: -4px; }
+.website-theme .activity-card:hover { border-color: var(--site-accent); }
+.website-theme .activity-card [contenteditable="true"] { cursor: text; }
 .website-theme .activity-image { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--site-soft); }
 .website-theme .activity-image-placeholder { display: grid; place-items: center; font-size: 40px; color: var(--site-muted); }
 .website-theme .activity-copy { display: flex; flex-direction: column; flex: 1; gap: 16px; padding: 24px; overflow-wrap: anywhere; }
 .website-theme .activity-copy h3 { font-family: var(--site-heading-font); font-size: 22px; line-height: 1.35; margin: 0; color: var(--site-ink); }
 .website-theme .activity-copy p { color: var(--site-muted); line-height: 1.7; white-space: pre-line; margin: 0; }
-.website-theme .activity-copy .btn { align-self: start; margin-top: auto; min-height: 44px; white-space: normal; }
 .website-theme .activity-dialog {
   width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 48px); padding: 0;
   border: 1px solid var(--site-border); border-radius: var(--site-radius); overflow-y: auto;
