@@ -26,6 +26,11 @@ const fallbackTemplates = [
     name: 'Earth Calm',
     description: 'Natural, hangat, organik',
   },
+  {
+    id: 'template-pop-balance',
+    name: 'Pop Balance',
+    description: 'Violet playful, ivory hangat, nyaman dibaca',
+  },
 ];
 
 export const designTemplates = window.NOVABASE_DESIGN_TEMPLATES

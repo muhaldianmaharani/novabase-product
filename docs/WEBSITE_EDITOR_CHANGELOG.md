@@ -93,6 +93,31 @@ Verifikasi aktual: Apache syntax OK; setelah Apache dinyalakan ulang dan MySQL y
 
 Commit/push: branch kerja `feat/web-editor-frontend`, target origin; SHA dan hasil push dilaporkan setelah percobaan aktual. Konfigurasi Apache di luar repo hanya dicatat, tidak dimasukkan sebagai file mesin ke Git.
 
+## 2026-10-13 - Template Pop Balance
+
+Status: IMPLEMENTASI DAN TEST INTEGRASI SELESAI; pemeriksaan visual browser belum dilakukan. Hasil push dilaporkan pada respons akhir.
+
+Permintaan: satu template yang menarik bagi Gen Z, tetap nyaman dibaca milenial. Arah desain dipilih sebagai keputusan visual untuk task ini, bukan klaim hasil riset preferensi generasi.
+
+WARNING: PERUBAHAN BASE CODE NOVABASE DIPERLUKAN. Kebutuhan ini sudah diotorisasi secara eksplisit oleh pemilik repo melalui jawaban “Ya, izinkan registrasi template ini saja”. Perubahan core dibatasi satu entri `template-pop-balance` pada `BlockRegistry::templates()`, tanpa perubahan validator, state, route, database atau permission.
+
+| File/bagian | Perubahan aktual | Alasan/dampak |
+| --- | --- | --- |
+| `app/Core/PageBuilder/BlockRegistry.php`, templates | Menambahkan ID dan metadata Pop Balance | Pilihan keenam dikirim server dan diterima validator existing |
+| `public/js/page-builder/editor/templates.js`, fallbackTemplates | Menambahkan metadata fallback ID yang sama | Konsisten ketika definisi server tidak tersedia; default tetap Studio Clean |
+| `public/css/page-builder/templates.css` | Tema scoped .website-theme.template-pop-balance | Ivory/violet/lime, heading ekspresif, copy lega, Card membulat, fokus keyboard dan reduced motion |
+| `public/css/page-builder/editor.css` | Swatch Pop Balance | Preview warna pada pemilih template |
+| `tests/Feature/PageManagementTest.php` | Test save tema baru dan konten Card tetap tersimpan | Memeriksa integrasi registrasi, save dan pembacaan ulang |
+| Dokumen scope dan changelog | Pengecualian core serta rekam perubahan | Handoff dan batas scope jelas |
+
+Template tidak mengganti konten pengguna atau template existing. Style dibatasi tema baru; aksen lime digunakan sebagai dekorasi/badge dengan teks gelap. Tidak menambahkan aset, font eksternal atau dependency.
+
+Verifikasi aktual: PHP registry dan JavaScript templates.js lolos syntax; kedua stylesheet lolos parse PostCSS; enam pasangan warna teks/latar utama memiliki rasio kontras 6.96–14.28 (di atas 4.5). PageManagementTest lolos: 6 test, 23 assertion, termasuk tema baru muncul di data editor, diterima save, dan konten Card terbaca kembali. Git diff --check lolos. Pemeriksaan visual browser desktop/mobile belum dilakukan; breakpoint mobile dan reduced motion sudah disediakan tetapi bukan klaim hasil uji browser. Tidak menjalankan migration/seeder pada database aplikasi; seeding test hanya melalui SQLite memory test suite.
+
+Handoff: pilih Pop Balance pada Design templates, simpan, reload dan bandingkan canvas/publik pada desktop dan mobile. Jika CSS lama masih terlihat, hard refresh browser. Rollback hanya file/hunk task ini, jangan menghapus konten website.
+
+Commit/push: target origin/feat/web-editor-frontend; SHA dan hasil aktual dilaporkan pada respons akhir.
+
 ## Format entri pekerjaan berikutnya
 
 ```markdown

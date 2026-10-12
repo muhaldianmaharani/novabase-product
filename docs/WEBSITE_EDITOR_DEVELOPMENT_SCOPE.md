@@ -10,6 +10,8 @@ Card berarti Card Grid (`type: cards`) beserta itemnya, atau card addon yang sec
 
 Template berarti tema desain Website Editor. Lima ID saat ini: `template-studio`, `template-bold`, `template-editorial`, `template-neon`, `template-earth`. Template halaman berisi preset konten belum dianggap sebagai fitur yang tersedia; jika diminta, rancang hanya menggunakan kontrak state yang ada dan eskalasikan kebutuhan kontrak baru.
 
+Pembaruan Pop Balance: template keenam `template-pop-balance` ditambahkan setelah pemilik repo memberikan izin eksplisit registrasi template ini saja di `BlockRegistry::templates()`. Pengecualian tersebut tidak memberi izin perubahan core lain. Template default tetap Studio Clean.
+
 ## Temuan repo dan alur aktif
 
 - Laravel 12 / PHP ^8.2; frontend editor memakai JavaScript ES modules dan CSS statis. Jangan menambahkan build system hanya untuk desain.

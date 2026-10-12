@@ -291,6 +291,141 @@
   color: #d08c60;
 }
 
+/* Pop Balance: expressive accents with a calm, readable content surface. */
+.website-theme.template-pop-balance {
+  --site-bg: #faf7f0;
+  --site-surface: #ffffff;
+  --site-soft: #eee7fa;
+  --site-ink: #272239;
+  --site-muted: #5d566d;
+  --site-accent: #6438ce;
+  --site-accent-2: #48258d;
+  --site-border: #d5cce5;
+  --site-hero: radial-gradient(ellipse at 95% 5%, #e4d8fb 0%, transparent 48%), linear-gradient(135deg, #faf7f0, #f4f0fb);
+  --site-cta: #272239;
+  --site-cta-ink: #faf7f0;
+  --site-cta-muted: #ded6ec;
+  --site-radius: 22px;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.website-theme.template-pop-balance .hero-title {
+  font-size: clamp(36px, 4.6vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.website-theme.template-pop-balance .hero-kicker {
+  display: inline-block;
+  padding: 7px 14px;
+  border: 1px solid #b8cf67;
+  border-radius: 999px;
+  background: #d9ef88;
+  color: #272239;
+  letter-spacing: 0.04em;
+}
+
+.website-theme.template-pop-balance .section-heading {
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.website-theme.template-pop-balance .hero-copy,
+.website-theme.template-pop-balance .section-copy {
+  max-width: 62ch;
+  line-height: 1.75;
+}
+
+.website-theme.template-pop-balance .hero-media {
+  border: 2px solid #272239;
+  box-shadow: 8px 8px 0 #d9ef88;
+}
+
+.website-theme.template-pop-balance .card-grid { gap: 24px; }
+
+.website-theme.template-pop-balance .feature-card {
+  min-width: 0;
+  border: 1px solid #b6a8cd;
+  border-top: 5px solid #6438ce;
+  padding: clamp(22px, 3vw, 30px);
+  box-shadow: 4px 5px 0 #e0d7ef;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.website-theme.template-pop-balance .feature-card:nth-child(3n + 2) {
+  border-top-color: #9bbd37;
+}
+
+.website-theme.template-pop-balance .feature-card:nth-child(3n) {
+  border-top-color: #c96d4a;
+}
+
+.website-theme.template-pop-balance .feature-card p {
+  color: var(--site-muted);
+  line-height: 1.75;
+}
+
+.website-theme.template-pop-balance .feature-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+}
+
+.website-theme.template-pop-balance .card-link {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 700;
+}
+
+.website-theme.template-pop-balance .btn {
+  border-radius: 999px;
+  min-height: 44px;
+  padding: 11px 22px;
+  font-weight: 700;
+  white-space: normal;
+}
+
+.website-theme.template-pop-balance .btn-primary:hover,
+.website-theme.template-pop-balance .btn-dark:hover {
+  background: #48258d;
+  border-color: #48258d;
+  color: #ffffff;
+}
+
+.website-theme.template-pop-balance :is(a, button, input, select, textarea, [contenteditable="true"]):focus-visible {
+  outline: 3px solid #6438ce;
+  outline-offset: 4px;
+}
+
+.website-theme.template-pop-balance .cta-band :is(a, button):focus-visible {
+  outline-color: #d9ef88;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .website-theme.template-pop-balance .feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 8px 0 #d3c4ec;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .website-theme.template-pop-balance .feature-card {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .website-theme.template-pop-balance .hero-title { font-size: clamp(32px, 8vw, 42px); }
+  .website-theme.template-pop-balance .hero-media { box-shadow: 4px 4px 0 #d9ef88; }
+  .website-theme.template-pop-balance .card-grid { gap: 20px; }
+}
+
 .website-theme .addon-card-section { background: var(--site-hero); }
 .website-theme .addon-card-inner { max-width: 760px; margin: 0 auto; padding: 42px; border: 1px solid var(--site-border); border-radius: var(--site-radius); background: var(--site-surface); box-shadow: 0 18px 42px rgba(15, 23, 42, .08); }
 .website-theme .addon-card-badge { color: var(--site-accent); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }

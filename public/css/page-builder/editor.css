@@ -221,6 +221,10 @@ body {
   background: linear-gradient(135deg, #0f1020 0 50%, #22d3ee 50% 68%, #f472b6 68%);
 }
 
+.template-swatch.template-pop-balance {
+  background: linear-gradient(135deg, #faf7f0 0% 42%, #6438ce 42% 76%, #d9ef88 76%);
+}
+
 .template-swatch.template-earth {
   background: linear-gradient(135deg, #eef2e6 0 50%, #53755b 50% 72%, #d08c60 72%);
 }

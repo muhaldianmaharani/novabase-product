@@ -12,6 +12,7 @@ class BlockRegistry
             'template-editorial' => ['name' => 'Editorial Luxe', 'description' => 'Premium magazine style'],
             'template-neon' => ['name' => 'Neon Night', 'description' => 'Energetic dark tech'],
             'template-earth' => ['name' => 'Earth Calm', 'description' => 'Warm, natural and organic'],
+            'template-pop-balance' => ['name' => 'Pop Balance', 'description' => 'Playful violet, warm ivory, easy reading'],
         ];
     }
 

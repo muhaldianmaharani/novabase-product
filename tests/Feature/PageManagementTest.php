@@ -113,6 +113,38 @@ class PageManagementTest extends TestCase
         $this->assertDatabaseMissing('site_cards', ['id' => $card->id]);
     }
 
+    public function test_pop_balance_template_saves_without_replacing_card_content(): void
+    {
+        $this->seed();
+        $admin = User::factory()->create(['role' => UserRole::ADMIN]);
+        $page = SitePage::query()->where('slug', 'home')->firstOrFail();
+        $cards = BlockRegistry::definitions()['cards']['defaults'];
+        $cards['items'][0]['title'] = 'Konten tetap milik pengguna';
+        $payload = [
+            'template' => 'template-pop-balance',
+            'activePageId' => (string) $page->id,
+            'pages' => [[
+                'id' => (string) $page->id,
+                'label' => 'Home',
+                'path' => '/',
+                'version' => 1,
+                'blocks' => [[
+                    'id' => 'pop-cards', 'type' => 'cards',
+                    'navEnabled' => false, 'navLabel' => 'Fitur', 'data' => $cards,
+                ]],
+            ]],
+        ];
+
+        $this->actingAs($admin)
+            ->get(route('admin.pages.index'))
+            ->assertOk()
+            ->assertSee('template-pop-balance');
+        $this->postJson(route('admin.pages.builder.site-save'), $payload)->assertOk();
+        $this->assertSame('template-pop-balance', $page->fresh()->template_id);
+        $this->assertSame($cards, $page->fresh()->blocks()->firstOrFail()->data_json);
+        $this->get(route('admin.pages.index'))->assertOk()->assertSee('Konten tetap milik pengguna');
+    }
+
     public function test_stale_editor_save_is_rejected(): void
     {
         $this->seed();
