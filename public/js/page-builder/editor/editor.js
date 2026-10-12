@@ -7,6 +7,7 @@ import { createInitialState, findBlock, getActivePage, saveState } from './state
 import { slugify } from './slug.js';
 import { designTemplates } from './templates.js';
 import { blockDefinitions } from './blockRegistry.js';
+import { bindActivities } from './activities.js';
 
 export class VisualEditor {
   constructor(state) {
@@ -51,6 +52,7 @@ export class VisualEditor {
     this.renderTemplates();
     this.renderBlockPalette();
     this.nodes.siteCanvas.innerHTML = renderWebsite(this.state);
+    bindActivities(this.nodes.siteCanvas);
     this.renderInspector();
     this.bindCanvasEvents();
     this.initialized = true;
@@ -342,7 +344,7 @@ export class VisualEditor {
   }
 
   addBlockAfter(blockId, type = null) {
-    const selectedType = type ?? prompt('Jenis section baru: hero, cards, split, gallery, video, logos, testimonials, pricing, cta', 'cards');
+    const selectedType = type ?? prompt('Jenis section baru: hero, cards, activities, split, gallery, video, logos, testimonials, pricing, cta', 'cards');
     if (!selectedType) return;
 
     const page = getActivePage(this.state);
@@ -505,6 +507,24 @@ export class VisualEditor {
       });
       this.render();
       return;
+    }
+
+    if (block.type === 'activities') {
+      const items = Array.isArray(block.data.items) ? block.data.items : (block.data.items = []);
+      if (action === 'add-activity' && items.length < 100) {
+        items.push({ image: '', title: 'Kegiatan baru', summary: 'Tulis ringkasan kegiatan.', description: 'Tulis deskripsi lengkap kegiatan.' });
+        this.render();
+        return;
+      }
+      const index = Number(button.dataset.activityIndex);
+      if (Number.isInteger(index) && index >= 0 && index < items.length) {
+        if (action === 'remove-activity') items.splice(index, 1);
+        else if (action === 'activity-up' && index > 0) [items[index - 1], items[index]] = [items[index], items[index - 1]];
+        else if (action === 'activity-down' && index < items.length - 1) [items[index + 1], items[index]] = [items[index], items[index + 1]];
+        else return;
+        this.render();
+        return;
+      }
     }
 
     if (action === 'add-gallery-image' && block.type === 'gallery') {

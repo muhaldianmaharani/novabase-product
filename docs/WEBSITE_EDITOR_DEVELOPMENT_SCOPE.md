@@ -46,6 +46,8 @@ File frontend yang diizinkan tetap merupakan bagian repo NovaBase. Pengecualian 
 
 ## Base code yang dilindungi
 
+Pengecualian task Kegiatan (2026-10-13): pemilik repo mengizinkan khusus registrasi `activities` di `BlockRegistry::definitions()` serta frontend carousel/popup Kegiatan pada editor dan publik. Termasuk modul baru `public/js/page-builder/editor/activities.js`, fallback registry/factory, renderer, inspector, handler editor, dan pemanggilan binder pada `public-renderer.js`. Izin ini tidak mencakup refactor umum atau perubahan validator, auth, tenant, API save, schema database, dan fitur bisnis lainnya. Field baru mengikuti validasi repeatable existing.
+
 Termasuk `app/Core/**`, controller, model, middleware, provider, `routes/**`, `config/**`, `bootstrap/**`, `database/**`, layout/CSS/JS global, dependency/lockfile, `.env*`, entrypoint hosting, dan sistem addon umum. Auth, role, permission, tenant isolation, cache, penyimpanan, API save, serta konversi legacy tidak boleh diubah dalam task ini.
 
 Contoh kebutuhan warning: mendaftarkan ID Template baru di `BlockRegistry::templates()`, menambah jenis block core, menambah field Card yang ditolak validator, mengubah format JSON/state atau database, dan menambahkan mekanisme renderer addon baru. Jangan memalsukan ID template atau melewati validator sebagai solusi frontend.

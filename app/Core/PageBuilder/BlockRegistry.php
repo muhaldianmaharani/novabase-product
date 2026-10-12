@@ -29,6 +29,19 @@ class BlockRegistry
                 'defaults' => ['kicker' => 'Section baru', 'title' => 'Judul hero siap diedit langsung', 'text' => 'Tulis pesan utama brand atau produk di sini.', 'buttonLabel' => 'Call to action', 'buttonUrl' => 'https://example.com', 'image' => $imageB],
                 'initial' => ['kicker' => 'Template 1', 'title' => 'Bangun halaman bisnis dari preview yang langsung bisa diedit', 'text' => 'Klik tulisan di halaman untuk mengubah copy. Tambah section dari panel kiri, lalu atur gambar dan layout dari inspector.', 'buttonLabel' => 'Mulai sekarang', 'buttonUrl' => 'https://example.com', 'image' => $imageA],
             ],
+            'activities' => [
+                'label' => 'Kegiatan Berjalan',
+                'icon' => 'bi-calendar-event',
+                'defaults' => [
+                    'title' => 'Kegiatan yang sedang berjalan',
+                    'text' => 'Kenali program dan aktivitas terbaru kami.',
+                    'items' => [[
+                        'image' => '', 'title' => 'Kegiatan baru',
+                        'summary' => 'Ringkasan singkat kegiatan untuk pengunjung.',
+                        'description' => "Ceritakan kegiatan secara lengkap di sini.\n\nTambahkan tujuan, jadwal, lokasi, dan informasi peserta.",
+                    ]],
+                ],
+            ],
             'cards' => ['label' => 'Card Grid', 'defaults' => ['title' => 'Fitur unggulan', 'text' => 'Susun beberapa poin penting dalam format kartu yang mudah dibaca.', 'items' => [['icon' => 'bi-lightning-charge', 'title' => 'Cepat', 'text' => 'Konten bisa diperbarui dari canvas.', 'link' => 'https://example.com/cepat'], ['icon' => 'bi-palette', 'title' => 'Fleksibel', 'text' => 'Cocok untuk banyak template website.', 'link' => 'https://example.com/fleksibel'], ['icon' => 'bi-shield-check', 'title' => 'Rapi', 'text' => 'State tersimpan sebagai JSON sederhana.', 'link' => 'https://example.com/rapi']]]],
             'split' => ['label' => 'Gambar + Teks', 'defaults' => ['title' => 'Ceritakan nilai produk dengan visual yang kuat', 'text' => 'Section ini cocok untuk profil usaha, layanan, atau highlight produk dengan satu gambar besar.', 'buttonLabel' => 'Pelajari detail', 'buttonUrl' => 'https://example.com/detail', 'image' => $imageC, 'imagePosition' => 'left']],
             'gallery' => ['label' => 'Gallery', 'defaults' => ['title' => 'Gallery project', 'text' => 'Tambahkan gambar dari URL atau upload file lokal untuk kebutuhan preview POC.', 'images' => [$imageA, $imageC, $imageD, $imageB]]],

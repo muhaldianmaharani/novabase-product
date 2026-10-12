@@ -46,6 +46,13 @@ export function createBlock(type) {
     };
   }
 
+  if (type === 'activities') {
+    return { id, type, navEnabled: false, navLabel: 'Kegiatan Berjalan', data: {
+      title: 'Kegiatan yang sedang berjalan', text: 'Kenali program dan aktivitas terbaru kami.',
+      items: [{ image: '', title: 'Kegiatan baru', summary: 'Ringkasan singkat kegiatan untuk pengunjung.', description: 'Ceritakan kegiatan secara lengkap di sini.' }],
+    } };
+  }
+
   if (type === 'hero') {
     return {
       id,

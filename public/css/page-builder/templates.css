@@ -426,6 +426,50 @@
   .website-theme.template-pop-balance .card-grid { gap: 20px; }
 }
 
+.website-theme .activities-heading {
+  display: flex; align-items: end; justify-content: space-between; gap: 24px;
+}
+.website-theme .activities-controls { display: flex; gap: 10px; padding-bottom: 28px; flex-shrink: 0; }
+.website-theme .activities-controls button { min-width: 44px; min-height: 44px; }
+.website-theme .activities-track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 3);
+  gap: 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+  padding: 4px 4px 20px; scrollbar-width: thin; scrollbar-color: var(--site-accent) var(--site-soft);
+}
+.website-theme .activity-card {
+  min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column;
+  background: var(--site-surface); border: 1px solid var(--site-border); border-radius: var(--site-radius);
+  overflow: hidden; color: var(--site-ink);
+}
+.website-theme .activity-image { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--site-soft); }
+.website-theme .activity-image-placeholder { display: grid; place-items: center; font-size: 40px; color: var(--site-muted); }
+.website-theme .activity-copy { display: flex; flex-direction: column; flex: 1; gap: 16px; padding: 24px; overflow-wrap: anywhere; }
+.website-theme .activity-copy h3 { font-family: var(--site-heading-font); font-size: 22px; line-height: 1.35; margin: 0; color: var(--site-ink); }
+.website-theme .activity-copy p { color: var(--site-muted); line-height: 1.7; white-space: pre-line; margin: 0; }
+.website-theme .activity-copy .btn { align-self: start; margin-top: auto; min-height: 44px; white-space: normal; }
+.website-theme .activity-dialog {
+  width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 48px); padding: 0;
+  border: 1px solid var(--site-border); border-radius: var(--site-radius); overflow-y: auto;
+  background: var(--site-surface); color: var(--site-ink); font-family: var(--site-font);
+  box-shadow: 0 24px 80px #0005; overscroll-behavior: contain;
+}
+.website-theme .activity-dialog::backdrop { background: #111827b3; }
+.website-theme .activity-dialog-header { display: flex; align-items: start; justify-content: space-between; gap: 20px; padding: 24px; }
+.website-theme .activity-dialog-header h3 { margin: 0; color: var(--site-ink); font-size: 26px; line-height: 1.35; overflow-wrap: anywhere; }
+.website-theme .activity-dialog-header button { min-width: 44px; min-height: 44px; flex-shrink: 0; }
+.website-theme .activity-dialog .activity-image { max-height: 360px; }
+.website-theme .activity-description { padding: 28px; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; }
+.website-theme .activities-section :is(button, .activities-track):focus-visible { outline: 3px solid var(--site-accent); outline-offset: 3px; }
+@media (max-width: 1000px) {
+  .website-theme .activities-track { grid-auto-columns: calc((100% - 24px) / 2); }
+}
+@media (max-width: 620px) {
+  .website-theme .activities-heading { align-items: start; flex-direction: column; gap: 0; }
+  .website-theme .activities-track { grid-auto-columns: 88%; gap: 16px; }
+  .website-theme .activity-copy { padding: 20px; }
+  .website-theme .activity-dialog-header, .website-theme .activity-description { padding: 20px; }
+}
+
 .website-theme .addon-card-section { background: var(--site-hero); }
 .website-theme .addon-card-inner { max-width: 760px; margin: 0 auto; padding: 42px; border: 1px solid var(--site-border); border-radius: var(--site-radius); background: var(--site-surface); box-shadow: 0 18px 42px rgba(15, 23, 42, .08); }
 .website-theme .addon-card-badge { color: var(--site-accent); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }

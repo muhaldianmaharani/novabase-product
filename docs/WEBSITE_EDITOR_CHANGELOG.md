@@ -118,6 +118,45 @@ Handoff: pilih Pop Balance pada Design templates, simpan, reload dan bandingkan 
 
 Commit/push: target origin/feat/web-editor-frontend; SHA dan hasil aktual dilaporkan pada respons akhir.
 
+## 2026-10-13 - Section Kegiatan Berjalan
+
+Status: IMPLEMENTASI DAN PEMERIKSAAN SELESAI; hasil push dicantumkan di respons akhir.
+
+Referensi: https://muhaldianmaharani.github.io/portofolio-terbaru/ dan sumber `js/activities-v2.js`, dibaca dari halaman publik. Referensi menampilkan card aktivitas dengan dokumentasi foto, judul, ringkasan dan catatan waktu. Implementasi mengadaptasi pola card tersebut, menambahkan carousel dan popup sesuai permintaan; tidak menyalin foto atau konten pribadi referensi.
+
+WARNING: PERUBAHAN BASE CODE NOVABASE DIPERLUKAN. Pemilik repo memberi izin eksplisit “Ya, izinkan khusus fitur Kegiatan” untuk registrasi block dan frontend editor/publik. Perubahan core hanya definisi `activities` beserta default yang sekaligus menjadi kontrak validasi existing. Tidak mengubah validator, route, database, auth, permission, tenant, atau API save.
+
+| File/bagian | Perubahan aktual | Dampak |
+| --- | --- | --- |
+| `app/Core/PageBuilder/BlockRegistry.php`, definitions | Block Kegiatan Berjalan dengan title, text, items berisi image/title/summary/description | Tersedia di palette dan diterima save existing |
+| `public/js/page-builder/editor/blockRegistry.js`, `blockFactory.js` | Fallback label dan default activities | Pembuatan block konsisten tanpa definisi server |
+| `public/js/page-builder/editor/activities.js` | Renderer card/carousel/dialog dan binding interaksi yang dipakai bersama | Geser sentuh/scroll, panah, keyboard, popup, tutup/Escape dan fokus kembali |
+| `public/js/page-builder/editor/siteRenderer.js` | Dispatch khusus type activities | Canvas dan publik menggunakan markup yang sama |
+| `public/js/page-builder/editor/editor.js` | Binding Kegiatan, tambah/hapus/urutkan item, pilihan prompt activities | Jumlah 0–100 sesuai batas validator; kontrol editor tidak mengubah API save |
+| `public/js/page-builder/editor/inspectorRenderer.js` | Field foto URL/upload, judul, ringkasan dan textarea detail; kontrol item | Semua isi dapat diedit, item ditambah/dihapus/diurutkan |
+| `public/js/page-builder/editor/public-renderer.js` | Binding Kegiatan setelah setiap render | Carousel/popup berfungsi juga setelah navigasi halaman publik |
+| `public/css/page-builder/templates.css` | Style Kegiatan mengikuti token tema existing dan breakpoint | Tiga card desktop, dua tablet, satu card dengan petunjuk card berikutnya di mobile; popup responsif |
+| `public/css/page-builder/editor.css` | Style fieldset inspector Kegiatan | Pemisahan kontrol tiap item |
+| `tests/Feature/PageManagementTest.php` | Integrasi create/edit/reorder/remove dan URL foto berbahaya | Memeriksa persistensi konten dan batas keamanan existing |
+| Dokumen scope/changelog | Izin terbatas dan hasil implementasi | Handoff junior |
+
+Kontrak: `type: activities`, `data: {title, text, items: [{image, title, summary, description}]}`. Jumlah item maksimal 100; teks mengikuti batas existing 5000 karakter/field. Foto opsional; input kosong menjadi null oleh Laravel dan ditampilkan sebagai placeholder. Deskripsi ditampilkan sebagai teks escaped dengan newline; tidak menerima HTML mentah. Tidak ada migrasi atau dependency tambahan.
+
+Verifikasi aktual:
+
+- PHP syntax registry lolos; tujuh modul JavaScript baru/diubah lolos node --check; CSS lolos parse PostCSS.
+- PageManagementTest: 7 test lolos, 32 assertion. Termasuk kegiatan tersimpan, isi panjang terbaca ulang, urutan berubah, penghapusan sampai kosong, dan javascript URL ditolak 422. Test memakai database SQLite memory, bukan data website.
+- Pemeriksaan renderer Node: escaping title/description, penolakan URL gambar javascript pada render, label dialog, mode edit dan empty state lolos.
+- Chrome headless fixture memakai modul/CSS nyata: carousel overflow/next, popup terbuka/tertutup, fokus di dialog/kembali ke pemicu, detail lengkap, dan tidak ada horizontal overflow halaman lolos pada desktop (viewport 1418px), viewport kecil 512px, serta emulasi mobile tepat 375px melalui CDP.
+- Pengujian awal menemukan kolom grid menyusut sehingga carousel tidak scroll; diperbaiki dengan lebar kolom tetap relatif container, lalu pemeriksaan browser diulang dan lolos.
+- Belum menguji alur login/save lewat browser pada website nyata atau seluruh kombinasi enam tema. Save/reload backend sudah diperiksa oleh feature test; browser fixture hanya memverifikasi komponen/interaksi.
+
+Pemakaian: Add section → Kegiatan Berjalan; pilih section untuk mengedit item di Inspector. Tambah kegiatan, atur foto, judul, ringkasan/detail, urutkan dengan panah, atau Hapus kegiatan. Save lalu periksa Preview dan halaman publik. Detail dibuka lewat Lihat kegiatan, ditutup tombol tutup, Escape, atau klik backdrop. Tidak ada autoplay agar pembaca mengontrol perpindahan.
+
+Rollback: jangan mencabut registrasi activities sebelum mengonversi/menghapus block activities yang sudah tersimpan secara sengaja; pencabutan dapat membuat data existing ditolak saat save. Kembalikan hunk task saja setelah meninjau data dan perubahan developer lain.
+
+Commit/push: target origin/feat/web-editor-frontend; SHA dan hasil aktual pada respons akhir. File fixture/profil browser hanya di TEMP dan tidak ikut commit.
+
 ## Format entri pekerjaan berikutnya
 
 ```markdown

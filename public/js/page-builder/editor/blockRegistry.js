@@ -1,6 +1,7 @@
 const fallbackTypes = {
   hero: 'Hero',
   cards: 'Card Grid',
+  activities: 'Kegiatan Berjalan',
   split: 'Gambar + Teks',
   gallery: 'Gallery',
   video: 'Video YouTube',

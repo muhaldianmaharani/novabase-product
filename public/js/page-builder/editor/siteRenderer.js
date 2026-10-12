@@ -1,4 +1,5 @@
 import { DEFAULT_TEMPLATE_ID, normalizeTemplateId } from './templates.js';
+import { renderActivities } from './activities.js';
 
 export function renderWebsite(state, options = {}) {
   const page = resolvePage(state, options.pageId);
@@ -123,6 +124,7 @@ function getSectionLabel(block) {
 }
 
 export function renderBlock(block, isEditable = false) {
+  if (block.type === 'activities') return renderActivities(block, isEditable, escapeHtml);
   const definition = window.NOVABASE_BLOCK_DEFINITIONS?.[block.type];
   if (definition?.renderer === 'tenant-signup') return renderTenantSignup(block, isEditable);
   if (definition?.renderer === 'addon-card') return renderAddonCard(block, isEditable);

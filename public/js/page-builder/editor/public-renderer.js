@@ -1,4 +1,5 @@
 import { renderPublicPage } from './siteRenderer.js';
+import { bindActivities } from './activities.js';
 
 const canvas = document.querySelector('#publicSiteCanvas');
 const state = window.NOVABASE_BUILDER_STATE;
@@ -10,6 +11,7 @@ state.pages.forEach((page) => {
 
 function render() {
   canvas.innerHTML = renderPublicPage(state, { auth: window.NOVABASE_AUTH });
+  bindActivities(canvas);
   canvas.querySelectorAll('[data-site-menu-toggle]').forEach((button) => {
     button.addEventListener('click', () => {
       const nav = button.closest('[data-site-navbar]');

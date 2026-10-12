@@ -225,6 +225,10 @@ body {
   background: linear-gradient(135deg, #faf7f0 0% 42%, #6438ce 42% 76%, #d9ef88 76%);
 }
 
+.activity-inspector-item { border: 1px solid #d8dee7; border-radius: 10px; padding: 14px; margin-bottom: 16px; min-width: 0; }
+.activity-inspector-item legend { float: none; width: auto; font-size: 14px; font-weight: 700; padding: 0 6px; }
+.activity-inspector-item .form-label { width: 100%; }
+
 .template-swatch.template-earth {
   background: linear-gradient(135deg, #eef2e6 0 50%, #53755b 50% 72%, #d08c60 72%);
 }

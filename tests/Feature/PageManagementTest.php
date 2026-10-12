@@ -145,6 +145,46 @@ class PageManagementTest extends TestCase
         $this->get(route('admin.pages.index'))->assertOk()->assertSee('Konten tetap milik pengguna');
     }
 
+    public function test_activities_can_be_saved_edited_reordered_and_removed(): void
+    {
+        $this->seed();
+        $admin = User::factory()->create(['role' => UserRole::ADMIN]);
+        $page = SitePage::query()->where('slug', 'home')->firstOrFail();
+        $first = ['image' => 'https://example.com/activity.jpg', 'title' => 'Kegiatan A', 'summary' => 'Ringkasan A', 'description' => "Detail lengkap A\nParagraf kedua"];
+        $second = ['image' => '', 'title' => 'Kegiatan B', 'summary' => 'Ringkasan B', 'description' => 'Detail B'];
+        $payload = [
+            'template' => 'template-pop-balance', 'activePageId' => (string) $page->id,
+            'pages' => [[
+                'id' => (string) $page->id, 'label' => 'Home', 'path' => '/', 'version' => 1,
+                'blocks' => [[
+                    'id' => 'activities-test', 'type' => 'activities', 'navEnabled' => false, 'navLabel' => 'Kegiatan',
+                    'data' => ['title' => 'Kegiatan berjalan', 'text' => 'Pengantar', 'items' => [$first, $second]],
+                ]],
+            ]],
+        ];
+        $this->actingAs($admin)->postJson(route('admin.pages.builder.site-save'), $payload)->assertOk();
+        // Laravel normalizes empty input strings to null; photo remains optional.
+        $second['image'] = null;
+        $this->assertSame([$first, $second], $page->fresh()->blocks()->firstOrFail()->data_json['items']);
+        $this->get(route('admin.pages.index'))->assertOk()->assertSee('Detail lengkap A');
+
+        $first['description'] = 'Detail diperbarui';
+        $payload['pages'][0]['version'] = $page->fresh()->builder_version;
+        $payload['pages'][0]['blocks'][0]['data']['items'] = [$second, $first];
+        $this->postJson(route('admin.pages.builder.site-save'), $payload)->assertOk();
+        $this->assertSame([$second, $first], $page->fresh()->blocks()->firstOrFail()->data_json['items']);
+
+        $payload['pages'][0]['version'] = $page->fresh()->builder_version;
+        $payload['pages'][0]['blocks'][0]['data']['items'] = [];
+        $this->postJson(route('admin.pages.builder.site-save'), $payload)->assertOk();
+        $this->assertSame([], $page->fresh()->blocks()->firstOrFail()->data_json['items']);
+
+        $payload['pages'][0]['version'] = $page->fresh()->builder_version;
+        $first['image'] = 'javascript:alert(1)';
+        $payload['pages'][0]['blocks'][0]['data']['items'] = [$first];
+        $this->postJson(route('admin.pages.builder.site-save'), $payload)->assertStatus(422);
+    }
+
     public function test_stale_editor_save_is_rejected(): void
     {
         $this->seed();

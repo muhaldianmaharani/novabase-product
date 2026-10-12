@@ -42,6 +42,7 @@ export function renderInspector(block) {
     : '';
 
   const addonFields = renderDefinitionFields(block);
+  const activityControls = block.type === 'activities' ? renderActivityControls(block) : '';
 
   const cardsControl = block.type === 'cards'
     ? `<button class="btn btn-outline-primary btn-sm w-100" data-inspector-action="add-card"><i class="bi bi-plus-lg"></i> Tambah Card</button>`
@@ -81,6 +82,7 @@ export function renderInspector(block) {
     <div class="inspector-card">
       ${navControl(block)}
       ${addonFields}
+      ${activityControls}
       ${block.navEnabled ? rootTextField(block.id, 'navLabel', block.navLabel ?? block.data.title ?? block.type, 'Nama section di navbar') : ''}
       ${splitControl}
       ${splitControl ? '<hr>' : ''}
@@ -115,6 +117,25 @@ function imageField(blockId, path, value, label = 'Gambar') {
       </label>
     </div>
   `;
+}
+
+function renderActivityControls(block) {
+  const items = Array.isArray(block.data.items) ? block.data.items : [];
+  const textarea = (path, value, label, max) => `<label class="form-label">${label}<textarea class="form-control form-control-sm" rows="4" maxlength="${max}" data-text-field="${block.id}:${path}">${escapeHtml(value)}</textarea></label>`;
+  return `${textField(block.id, 'title', block.data.title, 'Judul section')}
+    ${textarea('text', block.data.text, 'Pengantar section', 5000)}
+    <p class="small text-secondary">${items.length} kegiatan. Geser kartu atau gunakan panah. Maksimal 100 kegiatan.</p>
+    ${items.map((item, index) => `<fieldset class="activity-inspector-item"><legend>Kegiatan ${index + 1}</legend>
+      ${imageField(block.id, `items.${index}.image`, item.image, 'Foto kegiatan')}
+      ${textField(block.id, `items.${index}.title`, item.title, 'Judul kegiatan')}
+      ${textarea(`items.${index}.summary`, item.summary, 'Deskripsi singkat', 5000)}
+      ${textarea(`items.${index}.description`, item.description, 'Deskripsi lengkap (popup)', 5000)}
+      <div class="d-flex gap-2 flex-wrap">
+        <button type="button" class="btn btn-outline-dark btn-sm" data-inspector-action="activity-up" data-activity-index="${index}" ${index === 0 ? 'disabled' : ''} aria-label="Pindahkan kegiatan ${index + 1} ke atas">↑</button>
+        <button type="button" class="btn btn-outline-dark btn-sm" data-inspector-action="activity-down" data-activity-index="${index}" ${index === items.length - 1 ? 'disabled' : ''} aria-label="Pindahkan kegiatan ${index + 1} ke bawah">↓</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" data-inspector-action="remove-activity" data-activity-index="${index}">Hapus kegiatan</button>
+      </div></fieldset>`).join('')}
+    <button type="button" class="btn btn-outline-primary btn-sm w-100" data-inspector-action="add-activity" ${items.length >= 100 ? 'disabled' : ''}>Tambah kegiatan</button>`;
 }
 
 function textField(blockId, path, value, label) {
