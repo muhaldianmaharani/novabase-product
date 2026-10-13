@@ -1,6 +1,8 @@
 // Shared by the editor canvas and public renderer; no content is injected as raw HTML.
+import { withChurchDemoImages } from './churchDemoImages.js';
+
 export function renderActivities(block, editable, escape) {
-  const data = block.data || {};
+  const data = withChurchDemoImages('activities', block.data);
   const items = Array.isArray(data.items) ? data.items : [];
   const edit = path => editable ? `contenteditable="true" data-edit="${escape(block.id)}:${path}"` : '';
   const image = item => {

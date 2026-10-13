@@ -1,8 +1,12 @@
 import { blockTypes, blockDefinitions } from './blockRegistry.js';
 import { escapeHtml } from './siteRenderer.js';
+import { withChurchDemoImages } from './churchDemoImages.js';
 
 export function renderInspector(block) {
   if (!block) return '';
+  if (['hero', 'split', 'gallery', 'activities'].includes(block.type)) {
+    block = { ...block, data: withChurchDemoImages(block.type, block.data) };
+  }
 
   const imageFields = [];
 

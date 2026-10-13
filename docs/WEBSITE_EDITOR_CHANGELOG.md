@@ -175,6 +175,32 @@ Pemakaian: klik kartu langsung pada Preview/publik. Dalam mode Edit, klik foto/a
 
 Commit/push: branch `feat/web-editor-frontend`, target origin; SHA dan hasil aktual pada respons akhir. Rollback hanya hunk kedua file frontend dan catatan task ini.
 
+## 2026-10-13 - Foto nyata bawaan untuk demo website gereja
+
+Status: SELESAI FRONTEND; hasil push pada respons akhir.
+
+Permintaan: foto default nyata dan relevan untuk presentasi website gereja, terutama Hero dan Kegiatan, serta section bergambar lainnya.
+
+| File/area | Perubahan | Dampak |
+| --- | --- | --- |
+| `public/images/website-demo/*.jpg` dan `SOURCES.md` | Empat foto Unsplash nyata beserta sumber/credit: worship, fellowship, bible, church | Aset lokal untuk ibadah, persekutuan dan interior/Alkitab; bukan dokumentasi gereja klien |
+| `public/js/page-builder/editor/churchDemoImages.js` | Helper path lokal berdasarkan URL module dan pemilihan gambar default | Mendukung root/subfolder tanpa hardcode host; clone data untuk menjaga state |
+| `public/js/page-builder/editor/blockFactory.js` | Menggunakan foto gereja saat membuat Hero, Gambar + Teks, Gallery dan Kegiatan, baik definisi server maupun fallback | Section baru langsung memiliki contoh gambar; default backend tidak diubah |
+| `public/js/page-builder/editor/editor.js` | Tambah item Kegiatan/Gallery menggunakan foto lokal bergantian | Item tambahan tidak mulai dari foto kosong/kantor |
+| `public/js/page-builder/editor/siteRenderer.js`, `activities.js` | Foto stok kantor bawaan yang dikenali diganti pada tampilan; Kegiatan kosong memakai foto demo | Section lama dengan stok bawaan ikut relevan tanpa menulis ulang database |
+| `public/js/page-builder/editor/inspectorRenderer.js` | Menampilkan URL foto efektif yang sama dengan canvas | Foto demo dapat diganti URL/upload melalui kontrol existing |
+| Dokumen scope/changelog | Mencatat batas dan verifikasi task | Handoff junior |
+
+Perubahan tidak menimpa foto custom, konten teks, jumlah item atau urutan. Render hanya mengganti URL stok kantor bawaan yang dikenali secara spesifik dan foto Kegiatan kosong; data tersimpan tidak dimigrasi. Mengosongkan foto Kegiatan berarti kembali ke contoh bawaan. Section tanpa field foto (Card Grid/CTA/dll.) dan logo identitas tidak ditambah foto secara paksa. URL aset lokal mengikuti subfolder saat dibuat; bila memindahkan konten antar lokasi instalasi/subfolder, URL gambar tersimpan perlu ditinjau sebagaimana aset lokal lainnya.
+
+Warning core: tidak diperlukan perubahan base code; defaults server tetap digunakan lalu nilai foto contoh disesuaikan di frontend menggunakan field yang sudah diterima validator. Tidak mengubah backend, route, schema, .env, dependency atau data aplikasi.
+
+Verifikasi: keenam modul JS baru/diubah lolos node --check; empat JPEG valid dan diperiksa visual; pemeriksaan Node lolos untuk default Hero/Kegiatan/Gallery dari server, mapping stok lama, foto custom tetap, serta source/state tidak termutasi. Chrome headless fixture memuat keempat foto lokal (naturalWidth > 0) dan lolos pemeriksaan klik kartu/keyboard, popup, fokus dan scroll carousel pada desktop 1418px. Git diff --check lolos. Test backend tidak diulang karena kontrak save tidak berubah. Alur website nyata, deployment subfolder lain dan pemeriksaan mobile ulang belum dilakukan.
+
+Pemakaian: hard refresh editor/publik. Hero/Gambar + Teks/Gallery yang masih memakai stok kantor bawaan menampilkan foto gereja; Kegiatan kosong mendapat contoh foto. Semua foto tetap bisa diganti di Inspector. Foto asli pengguna yang sudah terpasang dipertahankan. Asset/credit selengkapnya di `public/images/website-demo/SOURCES.md`.
+
+Commit/push: branch feat/web-editor-frontend, target origin; hasil aktual dan SHA pada respons akhir. Rollback hunk task dan aset demo setelah memastikan tidak ada konten tersimpan yang memakai path aset tersebut.
+
 ## Format entri pekerjaan berikutnya
 
 ```markdown

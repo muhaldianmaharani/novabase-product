@@ -8,6 +8,7 @@ import { slugify } from './slug.js';
 import { designTemplates } from './templates.js';
 import { blockDefinitions } from './blockRegistry.js';
 import { bindActivities } from './activities.js';
+import { activityDemoImage, churchDemoImages } from './churchDemoImages.js';
 
 export class VisualEditor {
   constructor(state) {
@@ -512,7 +513,7 @@ export class VisualEditor {
     if (block.type === 'activities') {
       const items = Array.isArray(block.data.items) ? block.data.items : (block.data.items = []);
       if (action === 'add-activity' && items.length < 100) {
-        items.push({ image: '', title: 'Kegiatan baru', summary: 'Tulis ringkasan kegiatan.', description: 'Tulis deskripsi lengkap kegiatan.' });
+        items.push({ image: activityDemoImage(items.length), title: 'Kegiatan baru', summary: 'Tulis ringkasan kegiatan.', description: 'Tulis deskripsi lengkap kegiatan.' });
         this.render();
         return;
       }
@@ -528,7 +529,7 @@ export class VisualEditor {
     }
 
     if (action === 'add-gallery-image' && block.type === 'gallery') {
-      block.data.images.push('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80');
+      block.data.images.push(Object.values(churchDemoImages)[block.data.images.length % 4]);
       this.render();
       return;
     }

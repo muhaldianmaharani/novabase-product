@@ -75,6 +75,8 @@ Status: PENDING CORE - belum dieksekusi oleh pelaksana Card/Template.
 
 ## Aturan implementasi
 
+Task foto gereja (2026-10-13): sesuai permintaan pemilik, frontend boleh memakai aset lokal `public/images/website-demo/` dan helper `churchDemoImages.js` untuk foto contoh Hero/Gambar + Teks/Gallery/Kegiatan. Foto custom dan state tersimpan tidak ditimpa. Ini tidak mengotorisasi perubahan default backend/core maupun migrasi konten.
+
 - Sebelum edit, daftar target file dan tujuan perubahan. Periksa diff awal dan aturan lokal. Jangan menganggap semua file dalam folder editor bebas diubah.
 - Pertahankan ID block/item yang digunakan sistem, struktur state dan data existing. Beralih tema tidak boleh mengganti konten, menghapus block, atau mereset halaman.
 - Gunakan selector di bawah `.website-theme`/kelas template yang sesuai; hindari aturan global seperti `body`, `.card`, `button` yang memengaruhi admin/login.

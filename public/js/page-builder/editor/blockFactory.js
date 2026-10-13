@@ -1,9 +1,10 @@
 import { uid } from './id.js';
+import { churchDemoImages, activityDemoImage, withChurchDemoImages } from './churchDemoImages.js';
 
-const imageA = 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80';
-const imageB = 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=80';
-const imageC = 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80';
-const imageD = 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80';
+const imageA = churchDemoImages.worship;
+const imageB = churchDemoImages.fellowship;
+const imageC = churchDemoImages.church;
+const imageD = churchDemoImages.bible;
 
 export function createInitialHeroBlock() {
   const serverDefinition = window.NOVABASE_BLOCK_DEFINITIONS?.hero;
@@ -13,7 +14,7 @@ export function createInitialHeroBlock() {
       navEnabled: true,
       navLabel: 'Home',
       type: 'hero',
-      data: structuredClone(serverDefinition.initial || serverDefinition.defaults),
+      data: withChurchDemoImages('hero', serverDefinition.initial || serverDefinition.defaults),
     };
   }
 
@@ -42,14 +43,14 @@ export function createBlock(type) {
       navEnabled: false,
       navLabel: serverDefinition.label,
       type,
-      data: structuredClone(serverDefinition.defaults),
+      data: withChurchDemoImages(type, serverDefinition.defaults),
     };
   }
 
   if (type === 'activities') {
     return { id, type, navEnabled: false, navLabel: 'Kegiatan Berjalan', data: {
       title: 'Kegiatan yang sedang berjalan', text: 'Kenali program dan aktivitas terbaru kami.',
-      items: [{ image: '', title: 'Kegiatan baru', summary: 'Ringkasan singkat kegiatan untuk pengunjung.', description: 'Ceritakan kegiatan secara lengkap di sini.' }],
+      items: [{ image: activityDemoImage(), title: 'Kegiatan baru', summary: 'Ringkasan singkat kegiatan untuk pengunjung.', description: 'Ceritakan kegiatan secara lengkap di sini.' }],
     } };
   }
 
