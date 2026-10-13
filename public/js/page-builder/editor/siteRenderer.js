@@ -1,6 +1,7 @@
 import { DEFAULT_TEMPLATE_ID, normalizeTemplateId } from './templates.js';
 import { renderActivities } from './activities.js';
 import { withChurchDemoImages } from './churchDemoImages.js';
+import { renderChurchHub } from './churchHub.js';
 
 export function renderWebsite(state, options = {}) {
   const page = resolvePage(state, options.pageId);
@@ -125,6 +126,7 @@ function getSectionLabel(block) {
 }
 
 export function renderBlock(block, isEditable = false) {
+  if (block.type === 'church-hub') return renderChurchHub(block, isEditable, escapeHtml);
   if (['hero', 'split', 'gallery'].includes(block.type)) {
     block = { ...block, data: withChurchDemoImages(block.type, block.data) };
   }

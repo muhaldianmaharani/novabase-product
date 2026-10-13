@@ -201,6 +201,46 @@ Pemakaian: hard refresh editor/publik. Hero/Gambar + Teks/Gallery yang masih mem
 
 Commit/push: branch feat/web-editor-frontend, target origin; hasil aktual dan SHA pada respons akhir. Rollback hunk task dan aset demo setelah memastikan tidak ada konten tersimpan yang memakai path aset tersebut.
 
+## 2026-10-13 - Section dua panel Layanan & Informasi Gereja
+
+Status: IMPLEMENTASI DAN VERIFIKASI SECTION SELESAI. Dua kegagalan suite umum yang terbukti juga ada sebelum registrasi baru dicatat di bawah; hasil push pada respons akhir.
+
+Scope: satu block `church-hub`, kiri Layanan & Aktivitas Jemaat, kanan Informasi & Kegiatan Gereja. Menggunakan Add Section, factory, inspector, state JSON, Save, renderer editor/publik dan duplikasi existing; tidak membuat sistem penyimpanan lain.
+
+WARNING: PERUBAHAN BASE CODE NOVABASE DIPERLUKAN. Pemilik memberi izin eksplisit “Ya, izinkan registrasi khusus section ini”. Core hanya mendapat satu definisi block/default/schema baru. Tidak mengubah validator, endpoint, migration, permission, auth atau tenant.
+
+| File/bagian | Perubahan aktual | Dampak |
+| --- | --- | --- |
+| `app/Core/PageBuilder/BlockRegistry.php` | Definisi church-hub, enam layanan dan tiga informasi dengan tanggal contoh 17/18/24 Oktober 2026 | Data default nyata dikirim server, diterima validator repeatable existing dan dipakai factory |
+| `public/js/page-builder/editor/churchHub.js` | Default fallback, clone/fill field yang absen, renderer dua panel, URL aman dan detail popup | Tidak menimpa kustomisasi atau array kosong; mengikuti token tema aktif; detail default punya perilaku |
+| `public/js/page-builder/editor/blockRegistry.js`, `blockFactory.js` | Pilihan palette/fallback dan pembuatan data baru yang di-clone | Add Section langsung menampilkan konten; setiap instance punya data independen |
+| `public/js/page-builder/editor/siteRenderer.js` | Dispatch church-hub ke renderer bersama | Edit, Preview dan halaman publik memakai data yang sama |
+| `public/js/page-builder/editor/inspectorRenderer.js` | Edit judul panel, ikon/kategori, judul, deskripsi, tanggal, label/URL tautan, detail popup, visibilitas; add/remove/reorder | Admin bebas mengelola jumlah/urutan/status item tiap panel |
+| `public/js/page-builder/editor/editor.js` | Handler item khusus church-hub dan inisialisasi field absen saat edit | Menggunakan alur input/change/Save existing; tidak mengganti data yang sudah ada |
+| `public/css/page-builder/templates.css`, `editor.css` | Dua panel responsif, kartu/ikon, tiga badge berbeda, inspector | Warna mengikuti tema; container query mengikuti lebar canvas mobile preview |
+| `tests/Feature/ChurchHubSectionTest.php` | Test defaults, save/readback/customize/hide/reorder/add/delete/duplicate, isolasi dua gereja dan URL/field tidak valid | Memeriksa persistensi dan kontrak existing tanpa melemahkan test lain |
+| Scope dan changelog | Batas izin, hasil verifikasi dan handoff | Dokumentasi pelaksana berikutnya |
+
+Data: `{servicesTitle, newsTitle, services:[{icon,title,description,details,link,enabled}], news:[{category,title,description,date,actionLabel,link,details,enabled}]}`. Maksimal 100 item per daftar, teks maksimum 5000 sesuai validator existing. Status disimpan sebagai string `1`/`0`, bukan boolean baru. Field teks tautan bernama `actionLabel` agar tidak salah dikenali validator URL existing. Desain informasi berupa kartu teks tanpa field gambar; tidak menambahkan schema gambar yang tidak dipakai.
+
+Default enam layanan: Jadwal Ibadah, Persekutuan Pemuda, Sekolah Minggu, Pelayanan Doa, Renungan Harian, Persembahan. Default tiga informasi: Jadwal Ibadah Minggu (Pengumuman), Persekutuan Pemuda (Kegiatan), Pelayanan Sosial Gereja (Informasi). Tanggal/jadwal adalah contoh yang dapat diedit, bukan jadwal resmi klien. Tidak mengaktifkan formulir doa, pembayaran atau rekening contoh.
+
+Default hanya di-clone saat pembuatan block baru atau untuk field root yang benar-benar absen. Nilai custom, teks kosong, hidden items dan array kosong dipertahankan. Render tidak memutasi state. Duplikasi existing memakai structuredClone dan ID block baru sehingga dialog/data terpisah. Save menyimpan ke halaman scoped tenant existing; tidak menulis default global. Link terisi membuka alamat yang diatur admin; link kosong membuka dialog detail berisi konten relevan memakai binder dialog existing. Mendukung HTTP/HTTPS, alamat lokal/anchor, mailto dan tel; URL tidak aman tidak dirender sebagai link.
+
+Verifikasi aktual:
+
+- PHP syntax registry dan enam modul JS baru/diubah lolos; PostCSS parse kedua stylesheet dan git diff --check lolos.
+- ChurchHubSectionTest + PageManagementTest: 10 test, 57 assertion, semua lolos. Termasuk default enam/tiga, save/kustomisasi/readback, duplikasi, reorder, hide, add/delete sampai kosong, tenant A tidak mengubah B/default global, serta penolakan URL javascript dan field asing.
+- Node: default/fallback, independensi dua instance, pelestarian array/teks kosong, hidden item, escaping, URL web/lokal/mailto/tel, render tidak memutasi state, serta edit field/list yang sebelumnya absen tanpa menimpa judul custom lolos.
+- Chrome nyata terhadap Laravel port 8013 dan SQLite sementara: login admin test, Add Section enam/tiga, ubah judul/deskripsi/ikon/tanggal/URL, add/remove/reorder/hide, klik Save, reload dengan isi tetap, duplikasi dan edit salinan tanpa mengubah asli, Preview tanpa contenteditable, popup default, render publik, serta mobile 375px satu kolom tanpa horizontal overflow lolos.
+- Suite penuh: 33 test, 139 assertion, 31 lolos / 2 gagal. ExampleTest membuka Home pada SQLite memory tanpa RefreshDatabase sehingga tabel site_pages tidak ada; RoleAccessTest mengharapkan admin/dashboard tetapi mendapat app/dashboard (test tidak seed role records). Keduanya direproduksi dengan registry dari HEAD sebelum perubahan melalui PHP auto_prepend_file di TEMP: 6 test baseline, 10 assertion, dua kegagalan yang sama. Backend lain tidak berubah. Tidak memperbaiki auth/test di luar scope.
+
+Izin test database: automatic approval review awal menolak migration/seeder karena aturan AGENTS.md. Pemilik kemudian secara eksplisit mengizinkan migration/seeder hanya di SQLite sementara/TEMP dan server test 8013. Pengujian berhasil setelah izin tersebut; database MySQL website dan .env tidak diubah. Fixture, SQLite, screenshot dan profil Chrome tidak di-commit. Server test dihentikan setelah pengujian.
+
+Pemakaian: Add Section → Layanan & Informasi Gereja. Klik section untuk membuka Inspector; edit masing-masing daftar dan pilih visibilitas aktif/nonaktif. Tautan kosong membuka detail; isi tautan resmi untuk navigasi langsung. Save dan reload mempertahankan isi. Hard refresh bila browser masih memakai modul lama.
+
+Rollback: jangan mencabut definisi church-hub ketika masih ada block jenis ini tersimpan tanpa meninjau/menangani kontennya terlebih dahulu. Kembalikan hunk task saja, tanpa menghapus data gereja atau pekerjaan developer lain. Commit/push target origin/feat/web-editor-frontend; SHA dan hasil aktual pada respons akhir.
+
 ## Format entri pekerjaan berikutnya
 
 ```markdown

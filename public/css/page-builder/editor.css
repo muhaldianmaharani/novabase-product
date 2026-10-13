@@ -227,6 +227,9 @@ body {
 
 .activity-inspector-item { border: 1px solid #d8dee7; border-radius: 10px; padding: 14px; margin-bottom: 16px; min-width: 0; }
 .activity-inspector-item legend { float: none; width: auto; font-size: 14px; font-weight: 700; padding: 0 6px; }
+.church-hub-inspector-item { border: 1px solid #d8dee7; border-radius: 10px; padding: 14px; margin-bottom: 16px; min-width: 0; }
+.church-hub-inspector-item legend { float: none; width: auto; font-size: 14px; font-weight: 700; padding: 0 6px; }
+.church-hub-inspector-item .form-label { width: 100%; }
 .activity-inspector-item .form-label { width: 100%; }
 
 .template-swatch.template-earth {

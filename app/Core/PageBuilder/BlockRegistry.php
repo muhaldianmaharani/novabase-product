@@ -29,6 +29,27 @@ class BlockRegistry
                 'defaults' => ['kicker' => 'Section baru', 'title' => 'Judul hero siap diedit langsung', 'text' => 'Tulis pesan utama brand atau produk di sini.', 'buttonLabel' => 'Call to action', 'buttonUrl' => 'https://example.com', 'image' => $imageB],
                 'initial' => ['kicker' => 'Template 1', 'title' => 'Bangun halaman bisnis dari preview yang langsung bisa diedit', 'text' => 'Klik tulisan di halaman untuk mengubah copy. Tambah section dari panel kiri, lalu atur gambar dan layout dari inspector.', 'buttonLabel' => 'Mulai sekarang', 'buttonUrl' => 'https://example.com', 'image' => $imageA],
             ],
+            'church-hub' => [
+                'label' => 'Layanan & Informasi Gereja',
+                'icon' => 'bi-grid-1x2',
+                'defaults' => [
+                    'servicesTitle' => 'Layanan & Aktivitas Jemaat',
+                    'newsTitle' => 'Informasi & Kegiatan Gereja',
+                    'services' => [
+                        ['icon' => 'bi-clock', 'title' => 'Jadwal Ibadah', 'description' => 'Informasi jadwal dan waktu ibadah gereja.', 'details' => 'Ibadah Minggu pukul 07.00 dan 10.00. Hadir lebih awal untuk mempersiapkan hati bersama keluarga. Jadwal ini merupakan contoh dan dapat disesuaikan oleh admin gereja.', 'link' => '', 'enabled' => '1'],
+                        ['icon' => 'bi-people', 'title' => 'Persekutuan Pemuda', 'description' => 'Informasi komunitas dan kegiatan pemuda.', 'details' => 'Persekutuan pemuda setiap Sabtu pukul 17.00: pujian, diskusi firman, dan kebersamaan. Terbuka bagi pemuda yang ingin bertumbuh dan melayani. Jadwal contoh dapat diedit.', 'link' => '', 'enabled' => '1'],
+                        ['icon' => 'bi-balloon', 'title' => 'Sekolah Minggu', 'description' => 'Informasi pelayanan anak.', 'details' => 'Anak-anak belajar firman Tuhan melalui cerita, pujian, dan kegiatan kreatif setiap Minggu pukul 09.00. Orang tua dapat menghubungi tim pelayanan anak untuk informasi kelas. Jadwal contoh dapat diedit.', 'link' => '', 'enabled' => '1'],
+                        ['icon' => 'bi-heart', 'title' => 'Pelayanan Doa', 'description' => 'Informasi dan akses permohonan doa.', 'details' => 'Tim pelayanan doa mendampingi jemaat dalam pergumulan dan ucapan syukur. Hubungi sekretariat gereja untuk menyampaikan permohonan secara pribadi. Admin dapat menambahkan tautan kanal pelayanan doa resmi.', 'link' => '', 'enabled' => '1'],
+                        ['icon' => 'bi-book', 'title' => 'Renungan Harian', 'description' => 'Akses ke renungan dan refleksi firman Tuhan.', 'details' => 'Luangkan waktu untuk membaca firman, merenungkan kebaikan Tuhan, dan berdoa bagi sesama. Admin dapat mengganti detail ini dengan renungan hari ini atau memasukkan tautan halaman renungan gereja.', 'link' => '', 'enabled' => '1'],
+                        ['icon' => 'bi-gift', 'title' => 'Persembahan', 'description' => 'Informasi mengenai persembahan dan dukungan pelayanan.', 'details' => 'Persembahan mendukung pelayanan jemaat dan kepedulian kepada sesama. Untuk informasi saluran persembahan resmi, silakan menghubungi sekretariat gereja. Tidak ada rekening atau pembayaran contoh yang diaktifkan.', 'link' => '', 'enabled' => '1'],
+                    ],
+                    'news' => [
+                        ['category' => 'Pengumuman', 'title' => 'Jadwal Ibadah Minggu', 'description' => 'Informasi jadwal ibadah dan rangkaian pelayanan minggu ini.', 'date' => '2026-10-18', 'actionLabel' => 'Baca selengkapnya', 'link' => '', 'details' => 'Minggu, 18 Oktober 2026: ibadah pukul 07.00 dan 10.00, dilanjutkan persekutuan jemaat. Jadwal ini adalah contoh untuk presentasi dan dapat diperbarui oleh admin.', 'enabled' => '1'],
+                        ['category' => 'Kegiatan', 'title' => 'Persekutuan Pemuda', 'description' => 'Mari bertumbuh bersama dalam iman, persekutuan, dan pelayanan.', 'date' => '2026-10-17', 'actionLabel' => 'Lihat kegiatan', 'link' => '', 'details' => 'Sabtu, 17 Oktober 2026 pukul 17.00: pujian bersama, refleksi firman, dan diskusi kelompok. Undang teman untuk ikut mengenal komunitas pemuda. Jadwal contoh dapat diedit.', 'enabled' => '1'],
+                        ['category' => 'Informasi', 'title' => 'Pelayanan Sosial Gereja', 'description' => 'Informasi kegiatan pelayanan dan kepedulian gereja terhadap masyarakat.', 'date' => '2026-10-24', 'actionLabel' => 'Baca informasi', 'link' => '', 'details' => 'Sabtu, 24 Oktober 2026: jemaat diajak membantu persiapan paket kebutuhan pokok dan kunjungan kasih. Hubungi tim diakonia untuk informasi partisipasi. Jadwal dan bentuk kegiatan adalah contoh yang dapat disesuaikan.', 'enabled' => '1'],
+                    ],
+                ],
+            ],
             'activities' => [
                 'label' => 'Kegiatan Berjalan',
                 'icon' => 'bi-calendar-event',

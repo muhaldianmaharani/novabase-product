@@ -46,6 +46,8 @@ File frontend yang diizinkan tetap merupakan bagian repo NovaBase. Pengecualian 
 
 ## Base code yang dilindungi
 
+Pengecualian section Layanan & Informasi Gereja (2026-10-13): pemilik mengizinkan registrasi `church-hub` beserta defaults/schema pada `BlockRegistry::definitions()`, modul frontend `churchHub.js`, integrasi factory/registry/renderer/inspector/handler editor, styling, dan pengujian terkait. Tidak mengubah validator, API save, auth, tenant, database aplikasi, atau section lain. Visibilitas item menggunakan string `1`/`0` sesuai tipe field repeatable existing. Pemilik juga memberi izin terpisah migration/seeder hanya pada SQLite sementara di TEMP dan server test port 8013 untuk verifikasi browser.
+
 Pengecualian task Kegiatan (2026-10-13): pemilik repo mengizinkan khusus registrasi `activities` di `BlockRegistry::definitions()` serta frontend carousel/popup Kegiatan pada editor dan publik. Termasuk modul baru `public/js/page-builder/editor/activities.js`, fallback registry/factory, renderer, inspector, handler editor, dan pemanggilan binder pada `public-renderer.js`. Izin ini tidak mencakup refactor umum atau perubahan validator, auth, tenant, API save, schema database, dan fitur bisnis lainnya. Field baru mengikuti validasi repeatable existing.
 
 Termasuk `app/Core/**`, controller, model, middleware, provider, `routes/**`, `config/**`, `bootstrap/**`, `database/**`, layout/CSS/JS global, dependency/lockfile, `.env*`, entrypoint hosting, dan sistem addon umum. Auth, role, permission, tenant isolation, cache, penyimpanan, API save, serta konversi legacy tidak boleh diubah dalam task ini.

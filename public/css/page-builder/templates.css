@@ -472,6 +472,34 @@
   .website-theme .activity-dialog-header, .website-theme .activity-description { padding: 20px; }
 }
 
+.website-theme .church-hub-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.website-theme .church-hub-panel { min-width: 0; padding: clamp(20px, 3vw, 32px); border: 1px solid var(--site-border); border-radius: max(18px, var(--site-radius)); background: var(--site-surface); color: var(--site-ink); }
+.website-theme .church-hub-panel-heading { margin-bottom: 26px; }
+.website-theme .church-hub-panel .section-heading { font-size: clamp(24px, 2.2vw, 32px); line-height: 1.25; margin: 10px 0 0; overflow-wrap: anywhere; }
+.website-theme .church-hub-eyebrow { color: var(--site-accent); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+.website-theme .church-hub-services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.website-theme .church-hub-service { display: flex; align-items: start; gap: 12px; flex-wrap: wrap; min-width: 0; padding: 20px; border: 1px solid var(--site-border); border-radius: 16px; background: var(--site-surface); color: var(--site-ink); text-align: left; font: inherit; cursor: pointer; text-decoration: none; }
+.website-theme .church-hub-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; background: var(--site-soft); color: var(--site-accent); flex-shrink: 0; font-size: 21px; }
+.website-theme .church-hub-arrow { margin-left: auto; color: var(--site-accent); }
+.website-theme .church-hub-service-copy { display: flex; flex-direction: column; gap: 8px; flex-basis: 100%; min-width: 0; order: 1; }
+.website-theme .church-hub-card-title { display: block; color: var(--site-ink); font-family: var(--site-heading-font); font-weight: 750; font-size: 17px; line-height: 1.4; margin: 0; overflow-wrap: anywhere; }
+.website-theme .church-hub-description { display: block; margin: 0; color: var(--site-muted); font-size: 14px; line-height: 1.7; white-space: pre-line; overflow-wrap: anywhere; }
+.website-theme .church-hub-news { display: grid; gap: 16px; }
+.website-theme .church-hub-news-card { display: grid; gap: 12px; border: 1px solid var(--site-border); border-radius: 16px; padding: 20px; min-width: 0; }
+.website-theme .church-hub-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.website-theme .church-hub-meta time { color: var(--site-muted); font-size: 12px; }
+.website-theme .church-hub-badge { display: inline-flex; padding: 5px 10px; border-radius: 999px; color: var(--site-accent); background: var(--site-soft); font-size: 11px; font-weight: 800; border: 1px solid var(--site-border); overflow-wrap: anywhere; max-width: 100%; }
+.website-theme .church-hub-badge-announcement { border-left: 4px solid var(--site-accent); }
+.website-theme .church-hub-badge-event { border-style: dashed; border-color: var(--site-accent); }
+.website-theme .church-hub-badge-information { background: var(--site-ink); color: var(--site-surface); }
+.website-theme .church-hub-news-link { justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; background: transparent; color: var(--site-accent); font: inherit; font-size: 13px; font-weight: 750; text-align: left; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; min-height: 44px; }
+.website-theme .church-hub-service:hover { background: var(--site-soft); border-color: var(--site-accent); }
+.website-theme .church-hub :is(a, button):focus-visible { outline: 3px solid var(--site-accent); outline-offset: 3px; }
+@media (max-width: 900px) { .website-theme .church-hub-layout { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 420px) { .website-theme .church-hub-services { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 760px) { .website-theme .church-hub-layout { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 420px) { .website-theme .church-hub-services { grid-template-columns: minmax(0, 1fr); } }
+
 .website-theme .addon-card-section { background: var(--site-hero); }
 .website-theme .addon-card-inner { max-width: 760px; margin: 0 auto; padding: 42px; border: 1px solid var(--site-border); border-radius: var(--site-radius); background: var(--site-surface); box-shadow: 0 18px 42px rgba(15, 23, 42, .08); }
 .website-theme .addon-card-badge { color: var(--site-accent); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }

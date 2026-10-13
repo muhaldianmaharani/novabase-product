@@ -1,6 +1,7 @@
 import { blockTypes, blockDefinitions } from './blockRegistry.js';
 import { escapeHtml } from './siteRenderer.js';
 import { withChurchDemoImages } from './churchDemoImages.js';
+import { churchHubData } from './churchHub.js';
 
 export function renderInspector(block) {
   if (!block) return '';
@@ -47,6 +48,7 @@ export function renderInspector(block) {
 
   const addonFields = renderDefinitionFields(block);
   const activityControls = block.type === 'activities' ? renderActivityControls(block) : '';
+  const churchHubControls = block.type === 'church-hub' ? renderChurchHubControls(block) : '';
 
   const cardsControl = block.type === 'cards'
     ? `<button class="btn btn-outline-primary btn-sm w-100" data-inspector-action="add-card"><i class="bi bi-plus-lg"></i> Tambah Card</button>`
@@ -87,6 +89,7 @@ export function renderInspector(block) {
       ${navControl(block)}
       ${addonFields}
       ${activityControls}
+      ${churchHubControls}
       ${block.navEnabled ? rootTextField(block.id, 'navLabel', block.navLabel ?? block.data.title ?? block.type, 'Nama section di navbar') : ''}
       ${splitControl}
       ${splitControl ? '<hr>' : ''}
@@ -140,6 +143,38 @@ function renderActivityControls(block) {
         <button type="button" class="btn btn-outline-danger btn-sm" data-inspector-action="remove-activity" data-activity-index="${index}">Hapus kegiatan</button>
       </div></fieldset>`).join('')}
     <button type="button" class="btn btn-outline-primary btn-sm w-100" data-inspector-action="add-activity" ${items.length >= 100 ? 'disabled' : ''}>Tambah kegiatan</button>`;
+}
+
+function renderChurchHubControls(block) {
+  const data = churchHubData(block.data);
+  const field = (path, value, label, type = 'text') => `<label class="form-label">${label}
+    ${type === 'textarea'
+      ? `<textarea class="form-control form-control-sm" rows="3" maxlength="5000" data-text-field="${block.id}:${path}">${escapeHtml(value)}</textarea>`
+      : `<input class="form-control form-control-sm" type="${type}" maxlength="5000" value="${escapeHtml(value)}" data-text-field="${block.id}:${path}">`}</label>`;
+  return `${field('servicesTitle', data.servicesTitle, 'Judul panel layanan')}
+    ${field('newsTitle', data.newsTitle, 'Judul panel informasi')}
+    <p class="small text-secondary">Tautan kosong membuka popup detail. Isi URL halaman atau kanal resmi untuk mengarahkan pengunjung. Tanggal contoh dapat diedit.</p>
+    ${['services', 'news'].map(group => {
+      const items = Array.isArray(data[group]) ? data[group] : [];
+      const label = group === 'services' ? 'Layanan' : 'Informasi';
+      return `<h3 class="h6 mt-3">${label} (${items.length}/100)</h3>${items.map((item, index) => {
+        const path = `${group}.${index}`;
+        const action = (name, text, disabled = false) => `<button type="button" class="btn btn-outline-secondary btn-sm" data-inspector-action="hub-${name}" data-hub-group="${group}" data-hub-index="${index}" ${disabled ? 'disabled' : ''}>${text}</button>`;
+        return `<fieldset class="church-hub-inspector-item"><legend>${label} ${index + 1}</legend>
+          ${group === 'services' ? field(`${path}.icon`, item.icon, 'Ikon Bootstrap (contoh: bi-heart)') : field(`${path}.category`, item.category, 'Kategori (Pengumuman / Kegiatan / Informasi)')}
+          ${field(`${path}.title`, item.title, 'Judul')}
+          ${field(`${path}.description`, item.description, 'Deskripsi singkat', 'textarea')}
+          ${group === 'news' ? field(`${path}.date`, item.date, 'Tanggal', 'date') + field(`${path}.actionLabel`, item.actionLabel, 'Teks tautan') : ''}
+          ${field(`${path}.link`, item.link, 'Tautan (kosong = popup detail)')}
+          ${field(`${path}.details`, item.details, 'Isi popup detail', 'textarea')}
+          <label class="form-label">Visibilitas<select class="form-select form-select-sm" data-text-field="${block.id}:${path}.enabled">
+            <option value="1" ${item.enabled !== '0' ? 'selected' : ''}>Aktif / ditampilkan</option>
+            <option value="0" ${item.enabled === '0' ? 'selected' : ''}>Nonaktif / disembunyikan</option>
+          </select></label>
+          <div class="d-flex gap-2 flex-wrap">${action('up', 'Naik', index === 0)}${action('down', 'Turun', index === items.length - 1)}${action('remove', 'Hapus')}</div>
+        </fieldset>`;
+      }).join('')}<button type="button" class="btn btn-outline-primary btn-sm w-100" data-inspector-action="hub-add" data-hub-group="${group}" ${items.length >= 100 ? 'disabled' : ''}>Tambah ${label.toLowerCase()}</button>`;
+    }).join('')}`;
 }
 
 function textField(blockId, path, value, label) {

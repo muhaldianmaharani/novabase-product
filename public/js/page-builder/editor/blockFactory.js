@@ -1,5 +1,6 @@
 import { uid } from './id.js';
 import { churchDemoImages, activityDemoImage, withChurchDemoImages } from './churchDemoImages.js';
+import { churchHubDefaults } from './churchHub.js';
 
 const imageA = churchDemoImages.worship;
 const imageB = churchDemoImages.fellowship;
@@ -37,6 +38,9 @@ export function createInitialHeroBlock() {
 export function createBlock(type) {
   const id = uid('block');
   const serverDefinition = window.NOVABASE_BLOCK_DEFINITIONS?.[type];
+  if (type === 'church-hub') {
+    return { id, type, navEnabled: false, navLabel: 'Layanan & Informasi Gereja', data: churchHubDefaults() };
+  }
   if (serverDefinition) {
     return {
       id,

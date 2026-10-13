@@ -9,6 +9,7 @@ import { designTemplates } from './templates.js';
 import { blockDefinitions } from './blockRegistry.js';
 import { bindActivities } from './activities.js';
 import { activityDemoImage, churchDemoImages } from './churchDemoImages.js';
+import { churchHubData, churchHubDefaults } from './churchHub.js';
 
 export class VisualEditor {
   constructor(state) {
@@ -345,7 +346,7 @@ export class VisualEditor {
   }
 
   addBlockAfter(blockId, type = null) {
-    const selectedType = type ?? prompt('Jenis section baru: hero, cards, activities, split, gallery, video, logos, testimonials, pricing, cta', 'cards');
+    const selectedType = type ?? prompt('Jenis section baru: hero, cards, activities, church-hub, split, gallery, video, logos, testimonials, pricing, cta', 'cards');
     if (!selectedType) return;
 
     const page = getActivePage(this.state);
@@ -411,6 +412,7 @@ export class VisualEditor {
       const block = findBlock(this.state, blockId);
       if (!block) return;
 
+      if (block.type === 'church-hub') block.data = churchHubData(block.data);
       setByPath(block.data, path, textInput.value);
       saveState(this.state);
       return;
@@ -447,6 +449,7 @@ export class VisualEditor {
       const block = findBlock(this.state, blockId);
       if (!block) return;
 
+      if (block.type === 'church-hub') block.data = churchHubData(block.data);
       setByPath(block.data, path, textInput.value);
       this.render();
       return;
@@ -480,6 +483,25 @@ export class VisualEditor {
     const action = button.dataset.inspectorAction;
     const block = findBlock(this.state);
     if (!block) return;
+
+    if (block.type === 'church-hub' && action.startsWith('hub-')) {
+      const group = button.dataset.hubGroup;
+      if (!['services', 'news'].includes(group)) return;
+      block.data = churchHubData(block.data);
+      const items = Array.isArray(block.data[group]) ? block.data[group] : (block.data[group] = []);
+      if (action === 'hub-add' && items.length < 100) {
+        items.push(structuredClone(churchHubDefaults()[group][0]));
+      } else {
+        const index = Number(button.dataset.hubIndex);
+        if (!Number.isInteger(index) || index < 0 || index >= items.length) return;
+        if (action === 'hub-remove') items.splice(index, 1);
+        else if (action === 'hub-up' && index > 0) [items[index - 1], items[index]] = [items[index], items[index - 1]];
+        else if (action === 'hub-down' && index < items.length - 1) [items[index + 1], items[index]] = [items[index], items[index + 1]];
+        else return;
+      }
+      this.render();
+      return;
+    }
 
     if (action === 'add-nav-section') {
       block.navEnabled = true;

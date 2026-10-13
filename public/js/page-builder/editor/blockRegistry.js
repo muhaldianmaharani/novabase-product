@@ -2,6 +2,7 @@ const fallbackTypes = {
   hero: 'Hero',
   cards: 'Card Grid',
   activities: 'Kegiatan Berjalan',
+  'church-hub': 'Layanan & Informasi Gereja',
   split: 'Gambar + Teks',
   gallery: 'Gallery',
   video: 'Video YouTube',
